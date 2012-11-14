@@ -1,0 +1,16 @@
+*resharper.user
+[Pp]ackages/*
+!repositories.config
+[Bb]in/
+[Oo]bj/
+*.suo
+*.sln.cache
+_ReSharper.*/
+*.user
+*.docstates
+[Cc]ode[Dd]rop/
+*.orig
+*.swp
+UpgradeLog.XML
+_UpgradeReport_Files/
+TestResults/
