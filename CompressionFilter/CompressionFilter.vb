@@ -1,0 +1,26 @@
+﻿Imports System.Web
+Imports System.Web.Mvc
+Imports System.IO.Compression
+
+Public Class CompressionFilter
+	Inherits ActionFilterAttribute
+
+	Public Overrides Sub OnActionExecuting(filterContext As ActionExecutingContext)
+		Dim request As HttpRequestBase = filterContext.HttpContext.Request
+		Dim acceptEncoding As String = request.Headers("Accept-Encoding")
+		If acceptEncoding.IsEmptyOrNull() Then
+			Return
+		End If
+		acceptEncoding = acceptEncoding.ToUpperInvariant()
+		Dim response As HttpResponseBase = filterContext.HttpContext.Response
+		If acceptEncoding.Contains("GZIP") Then
+			response.AppendHeader("Content-encoding", "gzip")
+			response.Filter = New GZipStream(response.Filter, CompressionMode.Compress)
+		ElseIf acceptEncoding.Contains("DEFLATE") Then
+			response.AppendHeader("Content-encoding", "deflate")
+			response.Filter = New DeflateStream(response.Filter, CompressionMode.Compress)
+		End If
+	End Sub
+
+
+End Class
